@@ -2,7 +2,7 @@
 
 📜 Third-Party Licenses
 
-이 프로젝트는 다음과 같은 오픈소스 라이브러리를 사용하며, 각 라이브러리는 고유의 라이선스를 따른다.
+이 프로젝트는 다음과 같은 오픈소스 라이브러리를 사용하며 각 라이브러리는 고유의 라이선스를 따른다.
 | Library                          | License            | 사용 목적                                     |
 | -------------------------------- | ------------------ | ----------------------------------------- |
 | **DeepFace**                     | MIT                | 얼굴 인식·나이·성별 추정 및 감정 분석                    |
@@ -53,7 +53,7 @@ GUI 시현 : PyQt5로 제작한 데스크톱 프로그램에서 카메라 영상
 
 얼굴 감정/성별/나이 모델 : UTKFace 등 공개 데이터셋 활용
 
-학습 후 .pt 모델을 src/models/ 폴더에 저장하고, final_gui.py가 로드하여 실시간 추론을 수행
+학습 후 pt 모델을 src/models/ 폴더에 저장하고 final_gui.py가 로드하여 실시간 추론을 수행
 
 ⚙️ 개발 환경
 
@@ -65,3 +65,63 @@ GUI 실행 : pip install -r requirements.txt
 python src/final_gui.py
 
 
+## 🔎 System Architecture
+![System Architecture](images/System_Architecture.png)
+
+카메라와 마이크를 통해 입력된 실시간 영상·음성을 Google Speech-to-Text API로
+텍스트로 변환하고 DeepFace(얼굴), Wav2Vec2(음성), KcELECTRA(텍스트)가 각각 감정을 분석한다.
+세 결과는 Weighted Fusion 모듈에서 가중치(텍스트 0.8, 음성 0.2)로 통합되어 최종 감정을 산출한다.
+결과는 PyQt5 GUI를 통해 시각화되며 감정에 따라 유튜브 음악을 추천하거나
+AI 작곡 모듈로 전달되어 즉석에서 MIDI 음악을 생성한다.
+
+---
+
+## 🎶 AI Composition Flow
+![AI Composition Flow](images/AI_Composition_Flow.png)
+
+사용자가 카메라와 마이크를 통해 정보를 입력하면 시스템이 감정을 분석하고
+해당 감정에 맞는 음악 추천 또는 AI 작곡 경로를 선택한다.
+YouTube API를 이용해 감정 키워드 기반 음악을 검색·재생하거나
+감정별 템포·스케일·악기를 매핑해 MIDI 파일을 생성해 실시간으로 재생한다.
+
+---
+
+## ⚖️ Weighted Fusion
+![Weighted Fusion](images/Weighted_Fusion.png)
+
+텍스트와 음성 모델에서 출력된 감정 확률을 통합하기 위해
+텍스트 0.8, 음성 0.2의 가중치를 적용하였다.
+텍스트 데이터가 비교적 안정적이고 정확도가 높아 높은 비중을 부여했고
+음성 데이터는 미묘한 감정 신호를 보완하는 역할을 한다.
+
+---
+
+## 📊 Training Results
+
+### Text Emotion
+![Text Training](images/Text_Training_Results.png)
+
+KcELECTRA 모델을 사용한 한국어 7감정 분류(Text Emotion) 학습 결과.
+훈련 초기에는 빠른 정확도 상승을 보였으며 최종 검증 정확도는 약 70% 수준을 기록했다.
+
+### Voice Emotion
+![Voice Training](images/Voice_Training_Results.png)
+
+AI Hub 대화 음성 데이터로 학습한 Wav2Vec2 기반 음성 감정 분류 결과.
+훈련·검증 손실이 안정적으로 감소했으며 최종 검증 정확도는 약 60% 수준으로
+텍스트 대비 낮지만 멀티모달 보조 입력으로 활용하기에 충분한 성능을 확보했다.
+
+### Age Classification
+![Age Training](images/Age_Training_Results.png)
+![Age Training 2](images/Age_Training_Results1.png)
+
+UTKFace 데이터셋을 활용한 얼굴 나이 분류 결과.
+훈련과 검증 모두 손실이 꾸준히 감소하며 최종 검증 정확도는 약 76%를 달성했다.
+
+### Gender Classification
+![Gender Training](images/Gender_Training_Results.png)
+![Gender Training 2](images/Gender_Training_Results1.png)
+
+DeepFace를 활용한 얼굴 성별 분류 결과.
+훈련·검증 정확도가 모두 90% 이상으로 안정적인 성능을 보였으며
+GUI 실행 시 실시간 성별 예측에 사용된다.
