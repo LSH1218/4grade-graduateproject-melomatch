@@ -960,7 +960,7 @@ def update_weights(emotion, feedback, alpha=0.1):
 
 <div align="center">
 
-**Made with ❤️ by 이석현 & 김해현**
+**Made with 이석현 & 김해현**
 
 **© 2024 Dongyang Mirae University - Department of Automation Engineering**
 
