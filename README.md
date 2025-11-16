@@ -920,7 +920,7 @@ def update_weights(emotion, feedback, alpha=0.1):
 ### 연구자
 - **이석현** (Lee Seokhyun) - 동양미래대학교 자동화공학과
   - 역할: 입력부 전체, 멀티모달 감정 분석, GUI 개발
-  - Email: sukhyun1218@naver.com
+  - Email: sukhyun1218@gmail.com
   - GitHub: [@LSH1218](https://github.com/LSH1218)
 
 - **김해현** (Kim Haehyun) - 동양미래대학교 자동화공학과
@@ -945,7 +945,7 @@ def update_weights(emotion, feedback, alpha=0.1):
 
 프로젝트에 대한 문의사항이나 제안이 있으시면 아래로 연락주세요:
 
-- **Email**: sukhyun1218@naver.com
+- **Email**: sukhyun1218@gmail.com
 - **GitHub Issues**: [이슈 등록하기](https://github.com/LSH1218/4grade-graduateproject-melomatch/issues)
 
 ---
